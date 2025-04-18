@@ -1,0 +1,185 @@
+{
+  "animals": [
+    {
+      "id": "1",
+      "name": "Миша2",
+      "type": "Кошка",
+      "image": "https://cdn.ag.ru/media/screenshots/2f1/2f1953c20244cb8392e14e204a6b5e70.jpg",
+      "vetId": "1"
+    },
+    {
+      "id": "2",
+      "name": "Рэкс",
+      "type": "Собака",
+      "image": "https://avatars.mds.yandex.net/i?id=c42cf4ac0e7cf1b25f406956e71a63a6_l-5138710-images-thumbs&n=13",
+      "vetId": "7"
+    },
+    {
+      "id": "3",
+      "name": "Кеша",
+      "type": "Попугай",
+      "image": "https://i.pinimg.com/originals/57/9f/1a/579f1a27cf120b846cec9d603d973ab9.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Том",
+      "type": "Кот",
+      "image": "https://avatars.mds.yandex.net/i?id=499b6a8a0355421fa46d8be3982c516f_l-4234405-images-thumbs&n=13"
+    },
+    {
+      "id": "5",
+      "name": "Белка",
+      "type": "Хомяк",
+      "image": "https://i.pinimg.com/736x/98/60/9e/98609e9d119add67c5015a8f10bc5498.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Мурка",
+      "type": "Кот",
+      "image": "https://image.winudf.com/v2/image/Y29tLm1haW5nb2NzdHVkaW9zLmNhdF9zY3JlZW5fNF8xNTAzMDk3NDQ4XzA3OA/screen-4.jpg?fakeurl=1&type=.jpg"
+    },
+    {
+      "id": "7",
+      "name": "Лео",
+      "type": "Собака",
+      "image": "https://i.ebayimg.com/images/g/zdEAAOSwglJgS2Zp/s-l1600.jpg"
+    },
+    {
+      "id": "8",
+      "name": "Копатыч",
+      "type": "Медведь",
+      "image": "https://cdn.culture.ru/images/0048a3e9-659f-5030-a62a-7040aef074d8"
+    }
+  ],
+  "vets": [
+    {
+      "id": "1",
+      "name": "Анна Иванова",
+      "specialty": "Терапевт"
+    },
+    {
+      "id": "2",
+      "name": "Сергей Петров",
+      "specialty": "Хирург"
+    },
+    {
+      "id": "3",
+      "name": "Ирина Смирнова",
+      "specialty": "Офтальмолог"
+    },
+    {
+      "id": "4",
+      "name": "Алексей Волков",
+      "specialty": "Кардиолог"
+    },
+    {
+      "id": "5",
+      "name": "Наталья Котова",
+      "specialty": "Невролог"
+    },
+    {
+      "id": "6",
+      "name": "Дмитрий Левин",
+      "specialty": "Эндокринолог"
+    },
+    {
+      "id": "7",
+      "name": "Ольга Соколова",
+      "specialty": "Невролог"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Корм для кошек",
+      "price": "700",
+      "image": "https://lapkins.ru/upload/iblock/050/050102bccf4034128f63484f0f5389a9.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Лакомства для собак",
+      "price": 300,
+      "image": "https://avatars.mds.yandex.net/i?id=880393da34be189c4b42d67a3392c9f78864f702-4715150-images-thumbs&n=13"
+    },
+    {
+      "id": "3",
+      "name": "Игрушка для попугаев",
+      "price": 200
+    },
+    {
+      "id": "4",
+      "name": "Клетка для хомяка",
+      "price": 1200
+    },
+    {
+      "id": "5",
+      "name": "Шампунь для собак",
+      "price": 450
+    },
+    {
+      "id": "6",
+      "name": "Когтеточка",
+      "price": 700
+    },
+    {
+      "id": "7",
+      "name": "Перчатка для уборки шерсти",
+      "price": 250
+    },
+    {
+      "id": "8",
+      "name": "Миски для собак",
+      "price": 350
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "$2b$10$KeVEz6QemuvL93Ga32oWQu/ZwPkYcMLUAClyR85tGQzrJtlkMn/qO",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "vet1",
+      "password": "$2b$10$KeVEz6QemuvL93Ga32oWQu/ZwPkYcMLUAClyR85tGQzrJtlkMn/qO",
+      "role": "vet"
+    },
+    {
+      "id": "3",
+      "username": "client1",
+      "password": "$2b$10$KeVEz6QemuvL93Ga32oWQu/ZwPkYcMLUAClyR85tGQzrJtlkMn/qO",
+      "role": "client"
+    },
+    {
+      "id": "845b",
+      "username": "sel1",
+      "password": "$2b$10$KeVEz6QemuvL93Ga32oWQu/ZwPkYcMLUAClyR85tGQzrJtlkMn/qO",
+      "role": "seller"
+    },
+    {
+      "id": "98fd",
+      "username": "Dake",
+      "password": "$2b$10$KeVEz6QemuvL93Ga32oWQu/ZwPkYcMLUAClyR85tGQzrJtlkMn/qO",
+      "role": "client"
+    },
+    {
+      "id": "4875",
+      "username": "тест",
+      "password": "$2b$10$h9JHefPWV7.QDO1UTRZwOutZmNGCXCCzVy8UcT1V6NRFlLODHVTLq",
+      "role": "client"
+    },
+    {
+      "id": "8f08",
+      "username": "123",
+      "password": "123",
+      "role": "vet"
+    },
+    {
+      "id": "4daa",
+      "username": "azicus",
+      "password": "$2b$10$blJmcIcKJZzrKsx8qSgS2.sCREXhjcBecE4l30yL0qZov5yaN7NGO",
+      "role": "client"
+    }
+  ]
+}
