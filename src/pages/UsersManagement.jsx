@@ -1,3 +1,4 @@
+// src/pages/UsersManagement.jsx
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import bcrypt from 'bcryptjs';
@@ -65,18 +66,18 @@ export default function UsersManagement() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-primary mb-4">Управление пользователями</h1>
+    <div className="p-8 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-semibold text-center text-green-600 mb-6">Управление пользователями</h1>
 
       {/* Форма для добавления нового пользователя */}
-      <form onSubmit={handleAddUser} className="mb-6">
+      <form onSubmit={handleAddUser} className="bg-white shadow-md rounded-lg p-6 mb-8">
         <div className="mb-4">
           <input
             type="text"
             placeholder="Имя"
             value={newUser.username}
             onChange={e => setNewUser({ ...newUser, username: e.target.value })}
-            className="border p-2 rounded w-full"
+            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500"
             required
           />
         </div>
@@ -87,7 +88,7 @@ export default function UsersManagement() {
             placeholder="Пароль"
             value={newUser.password}
             onChange={e => setNewUser({ ...newUser, password: e.target.value })}
-            className="border p-2 rounded w-full"
+            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500"
             required
           />
         </div>
@@ -95,7 +96,7 @@ export default function UsersManagement() {
           <select
             value={newUser.role}
             onChange={e => setNewUser({ ...newUser, role: e.target.value })}
-            className="border p-2 rounded w-full"
+            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500"
           >
             {roles.map(role => (
               <option key={role} value={role}>{role}</option>
@@ -104,32 +105,32 @@ export default function UsersManagement() {
         </div>
         <button
           type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          className="bg-green-600 text-white px-6 py-3 rounded-lg w-full hover:bg-green-700 transition duration-300"
         >
           Добавить пользователя
         </button>
       </form>
 
       {/* Таблица пользователей */}
-      <table className="min-w-full border mb-[100px]">
-        <thead className="bg-green-100">
+      <table className="min-w-full table-auto bg-white shadow-md rounded-lg">
+        <thead className="bg-green-200">
           <tr>
-            <th className="border p-2">ID</th>
-            <th className="border p-2">Имя</th>
-            <th className="border p-2">Роль</th>
-            <th className="border p-2">Действия</th>
+            <th className="border p-3 text-left">ID</th>
+            <th className="border p-3 text-left">Имя</th>
+            <th className="border p-3 text-left">Роль</th>
+            <th className="border p-3 text-left">Действия</th>
           </tr>
         </thead>
         <tbody>
           {users.map(user => (
-            <tr key={user.id} className="text-center">
-              <td className="border p-2">{user.id}</td>
-              <td className="border p-2">{user.username}</td>
-              <td className="border p-2">
+            <tr key={user.id} className="border-t">
+              <td className="border p-3">{user.id}</td>
+              <td className="border p-3">{user.username}</td>
+              <td className="border p-3">
                 <select
                   value={user.role}
                   onChange={e => handleRoleChange(user.id, e.target.value)}
-                  className="p-1 rounded "
+                  className="p-2 rounded-lg focus:ring-2 focus:ring-green-500"
                   disabled={user.role === 'admin' || user.id === currentUser.id || currentUser.role !== 'admin'}
                 >
                   {roles.filter(role => role !== 'admin').map(role => (
@@ -137,10 +138,10 @@ export default function UsersManagement() {
                   ))}
                 </select>
               </td>
-              <td className="border p-2">
+              <td className="border p-3">
                 <button
                   onClick={() => handleDelete(user.id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
                 >
                   Удалить
                 </button>

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
 
-
 export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,13 +24,13 @@ export default function Register() {
     const newUser = {
       username,
       password: hashedPassword,
-      role: 'client'
+      role: 'client',
     };
 
     await fetch('http://localhost:3000/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(newUser),
     });
 
     setMsg('Регистрация прошла успешно!');
@@ -39,32 +38,46 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold mb-6 text-center text-green-600">Регистрация</h2>
+    <div className="max-w-md mx-auto mt-16 p-8 bg-white shadow-lg rounded-lg border border-gray-200">
+      <h2 className="text-3xl font-semibold mb-6 text-center text-green-600">Регистрация</h2>
       <form onSubmit={handleRegister} className="space-y-6">
-        <input
-          type="text"
-          placeholder="Имя пользователя"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          required
-          className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-        <input minLength={8}
-          type="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-          className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Имя пользователя"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          />
+          {msg && <p className="text-sm text-red-600 mt-2 text-center">{msg}</p>}
+        </div>
+        
+        <div>
+          <input
+            minLength={8}
+            type="password"
+            placeholder="Пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          />
+        </div>
+
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-300"
         >
           Зарегистрироваться
         </button>
-        {msg && <p className="text-sm text-center text-red-600 mt-2">{msg}</p>}
+
+        <p className="text-sm text-center mt-4 text-gray-600">
+          Уже есть аккаунт?{' '}
+          <a href="/login" className="text-green-600 hover:underline">
+            Войти
+          </a>
+        </p>
       </form>
     </div>
   );

@@ -51,16 +51,16 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-w-xs mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg p-6 rounded-lg">
-        <h2 className="text-2xl font-semibold text-center mb-4">Вход</h2>
+    <div className="w-full max-w-md mx-auto mt-10">
+      <form onSubmit={handleSubmit} className="bg-white shadow-lg p-8 rounded-lg">
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Вход</h2>
 
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Имя пользователя"
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-5 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
         <input
@@ -68,10 +68,13 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Пароль"
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
-        <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
+        <button
+          type="submit"
+          className="w-full bg-green-600 text-white p-3 rounded-lg transition duration-200 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
           Войти
         </button>
 
@@ -82,4 +85,3 @@ export default function Login() {
     </div>
   );
 }
-  

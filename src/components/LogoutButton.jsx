@@ -8,8 +8,7 @@ export default function LogoutButton() {
 
   const handleLogout = () => {
     dispatch(logout());
-    window.location.reload();
-    navigate('/');
+    navigate('/'); // Navigate to the homepage after logout
   };
 
   return (

@@ -31,7 +31,7 @@ export default function Animals() {
         body: JSON.stringify({ vetId })
       });
       const updatedAnimal = await response.json();
-      setAnimals(animals.map(animal => 
+      setAnimals(animals.map(animal =>
         animal.id === animalId ? updatedAnimal : animal
       ));
     } catch (error) {
@@ -45,14 +45,14 @@ export default function Animals() {
     : animals;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-primary mb-4">Наши животные</h1>
+    <div className="p-8 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold text-primary mb-6 text-center">Наши животные</h1>
       
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         <select
           value={selectedVet}
           onChange={(e) => setSelectedVet(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
+          className="p-3 border-2 border-gray-300 rounded-lg text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-primary transition-all"
         >
           <option value="">Все животные</option>
           {vets.map(vet => (
@@ -61,18 +61,18 @@ export default function Animals() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAnimals.map(animal => {
           const assignedVet = vets.find(vet => vet.id === animal.vetId);
           return (
-            <div key={animal.id} className="bg-white rounded-2xl shadow-md p-4 border">
+            <div key={animal.id} className="bg-white rounded-lg shadow-xl p-5 border-2 border-gray-200 hover:shadow-2xl transition-all">
               <img
                 src={animal.image}
                 alt={animal.name}
-                className="w-full h-64 object-cover rounded-md mb-4"
+                className="w-full h-56 object-cover rounded-md mb-4"
               />
-              <h2 className="text-lg font-semibold">{animal.name}</h2>
-              <p className="text-gray-700">Тип: {animal.type}</p>
+              <h2 className="text-xl font-semibold text-gray-800">{animal.name}</h2>
+              <p className="text-gray-600">Тип: {animal.type}</p>
               <div className="mt-3">
                 {assignedVet ? (
                   <p className="text-sm text-gray-600">Ветеринар: {assignedVet.name}</p>
@@ -83,7 +83,7 @@ export default function Animals() {
                   <select
                     value={animal.vetId || ''}
                     onChange={(e) => handleAssignVet(animal.id, e.target.value)}
-                    className="mt-2 p-2 border border-gray-300 rounded w-full"
+                    className="mt-3 p-3 border-2 border-gray-300 rounded-lg w-full text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   >
                     <option value="">Выберите ветеринара</option>
                     {vets.map(vet => (

@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ allowedRoles, children }) => {
+const ProtectedRoute = ({ allowedRoles = [], children }) => {
   const { user, role } = useSelector(state => state.user || {});
 
-  if (!user || (allowedRoles && !allowedRoles.includes(role))) {
+  if (!user || !allowedRoles.includes(role)) {
     return <Navigate to="/login" replace />;
   }
 

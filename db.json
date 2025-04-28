@@ -5,7 +5,7 @@
       "name": "Миша2",
       "type": "Кошка",
       "image": "https://cdn.ag.ru/media/screenshots/2f1/2f1953c20244cb8392e14e204a6b5e70.jpg",
-      "vetId": "1"
+      "vetId": "5"
     },
     {
       "id": "2",
@@ -49,13 +49,6 @@
       "name": "Копатыч",
       "type": "Медведь",
       "image": "https://cdn.culture.ru/images/0048a3e9-659f-5030-a62a-7040aef074d8"
-    },
-    {
-      "id": "efb3",
-      "name": "test",
-      "type": "test",
-      "image": "test",
-      "vetId": "1"
     }
   ],
   "vets": [
