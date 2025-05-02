@@ -1,53 +1,49 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
-import { login } from '../redux/userSlice';
+import { login } from '../redux/authSlice'; // Import from renamed authSlice
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (username === '' || password === '') {
+    if (email === '' || password === '') {
       setErrorMessage('Пожалуйста, заполните все поля');
       return;
     }
 
-    fetch('http://localhost:3000/users')
-      .then(res => res.json())
-      .then(users => {
-        const user = users.find(u => u.username === username);
-
-        if (!user) {
-          setErrorMessage('Пользователь не найден');
-          return;
-        }
-
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) {
-            console.error('Ошибка сравнения паролей:', err);
-            setErrorMessage('Ошибка входа');
-            return;
-          }
-
-          if (result) {
-            dispatch(login({ user: user.username, role: user.role }));
-            navigate('/');
-          } else {
-            setErrorMessage('Неверный пароль');
-          }
-        });
-      })
-      .catch(err => {
-        console.error('Ошибка при получении пользователей:', err);
-        setErrorMessage('Произошла ошибка при входе');
+    try {
+      const res = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrorMessage(data.message || 'Ошибка входа');
+        return;
+      }
+
+      dispatch(login({ // Dispatch action from authSlice
+        token: data.access_token,
+        user: data.user.username,
+        role: data.user.role,
+        email: data.user.email,
+      }));
+
+      navigate('/');
+    } catch (err) {
+      console.error('Ошибка при входе:', err);
+      setErrorMessage('Сервер недоступен');
+    }
   };
 
   return (
@@ -56,10 +52,10 @@ export default function Login() {
         <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Вход</h2>
 
         <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Имя пользователя"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
           className="w-full mb-5 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 

@@ -1,77 +1,106 @@
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import LogoutButton from './LogoutButton';
+// src/components/Navbar.jsx
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/authSlice';
+import { selectCartTotalItems } from '../redux/cartSlice'; // Импорт селектора для количества товаров в корзине
 
 export default function NavBar() {
-  const { user = null, role = '' } = useSelector((state) => state.user || {});
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const totalCartItems = useSelector(selectCartTotalItems); // Получаем количество товаров в корзине
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   return (
-    <nav className="bg-green-600 shadow-md p-4 text-white">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo or brand (optional) */}
-        <div className="text-xl font-semibold">
-          <Link to="/" className="hover:text-green-300 transition duration-200" aria-label="Перейти на главную">
-            ZOO Store
-          </Link>
-        </div>
-
-        {/* Desktop Links */}
-        <div className="hidden md:flex space-x-6">
-          <Link to="/" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти на главную">Главная</Link>
-          <Link to="/products" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти к продуктам">Продукты</Link>
-          <Link to="/animals" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти к животным">Животные</Link>
-          <Link to="/vets" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти к ветеринарам">Ветеринары</Link>
-
-          {role === 'admin' && (
-            <Link to="/users" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти к пользователям">Пользователи</Link>
+<nav className="bg-green-800 shadow-md">
+<div className="container mx-auto px-6 py-3 flex justify-between items-center">
+        <NavLink to="/" className="text-2xl font-bold text-white hover:text-gray-200">
+          ЗооМагазин
+        </NavLink>
+        <div className="flex items-center space-x-4">
+          <NavLink to="/" className={({ isActive }) => 
+            `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+          }>
+            Главная
+          </NavLink>
+          <NavLink to="/products" className={({ isActive }) => 
+            `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+          }>
+            Товары
+          </NavLink>
+          <NavLink to="/animals" className={({ isActive }) => 
+            `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+          }>
+            Животные
+          </NavLink>
+          <NavLink to="/vets" className={({ isActive }) => 
+            `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+          }>
+            Ветеринары
+          </NavLink>
+          {user && (user.role === 'admin' || user.role === 'owner') && (
+            <NavLink to="/users" className={({ isActive }) => 
+              `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+            }>
+              Пользователи
+            </NavLink>
           )}
-        </div>
-
-        {/* Mobile Menu Icon */}
-        <button
-          className="md:hidden text-2xl"
-          onClick={toggleMobileMenu}
-          aria-label={isMobileMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
-        >
-          {isMobileMenuOpen ? '×' : '☰'}
-        </button>
-
-        {/* Mobile Links */}
-        {isMobileMenuOpen && (
-          <div className="absolute top-16 left-0 w-full bg-green-600 p-4 flex flex-col items-center space-y-4 md:hidden">
-            <Link to="/" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти на главную">Главная</Link>
-            <Link to="/products" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти к продуктам">Продукты</Link>
-            <Link to="/animals" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти к животным">Животные</Link>
-            <Link to="/vets" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти к ветеринарам">Ветеринары</Link>
-
-            {role === 'admin' && (
-              <Link to="/users" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти к пользователям">Пользователи</Link>
+          {user && (
+            <NavLink to="/my-orders" className={({ isActive }) => 
+              `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+            }>
+              Мои заказы
+            </NavLink>
+          )}
+          {user && (
+            <NavLink to="/my-appointments" className={({ isActive }) => 
+              `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+            }>
+              Мои записи
+            </NavLink>
+          )}
+          {user && (
+            <NavLink to="/chat" className={({ isActive }) => 
+              `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+            }>
+              Чат
+            </NavLink>
+          )}
+          {/* Ссылка на корзину */} 
+          <NavLink to="/cart" className={({ isActive }) => 
+            `relative text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+          }>
+            Корзина
+            {totalCartItems > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                {totalCartItems}
+              </span>
             )}
-
-            {!user ? (
-              <>
-                <Link to="/login" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти на страницу входа">Вход</Link>
-                <Link to="/register" className="font-semibold text-lg text-white hover:text-green-300 transition duration-200" aria-label="Перейти на страницу регистрации">Регистрация</Link>
-              </>
-            ) : (
-              <LogoutButton />
-            )}
-          </div>
-        )}
-
-        {/* Desktop User Links */}
-        <div className="hidden md:flex space-x-6">
-          {!user ? (
-            <>
-              <Link to="/login" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти на страницу входа">Вход</Link>
-              <Link to="/register" className="font-semibold text-lg hover:text-green-300 transition duration-200" aria-label="Перейти на страницу регистрации">Регистрация</Link>
-            </>
+          </NavLink>
+          {user ? (
+            <button 
+              onClick={handleLogout} 
+              className="text-white bg-red-600 hover:bg-red-700 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Выйти ({user.username})
+            </button>
           ) : (
-            <LogoutButton />
+            <>
+              <NavLink to="/login" className={({ isActive }) => 
+                `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+              }>
+                Войти
+              </NavLink>
+              <NavLink to="/register" className={({ isActive }) => 
+                `text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-secondary' : ''}`
+              }>
+                Регистрация
+              </NavLink>
+            </>
           )}
         </div>
       </div>

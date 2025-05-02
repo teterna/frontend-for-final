@@ -1,7 +1,6 @@
 // src/pages/Register.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -11,32 +10,34 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    const res = await fetch(`http://localhost:3000/users?username=${username}`);
-    const existing = await res.json();
-    if (existing.length > 0) {
-      setMsg('Пользователь уже существует');
-      return;
+  
+    try {
+      const res = await fetch('http://localhost:5000/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username,
+          email: `${username}@mail.com`, // или запрашивай отдельно поле email
+          password,
+          role: 'client',
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        setMsg(data.message || 'Ошибка регистрации');
+        return;
+      }
+  
+      setMsg('Регистрация прошла успешно!');
+      setTimeout(() => navigate('/login'), 1000);
+    } catch (error) {
+      console.error('Ошибка:', error);
+      setMsg('Сервер недоступен');
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = {
-      username,
-      password: hashedPassword,
-      role: 'client',
-    };
-
-    await fetch('http://localhost:3000/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newUser),
-    });
-
-    setMsg('Регистрация прошла успешно!');
-    setTimeout(() => navigate('/login'), 1000);
   };
-
+  
   return (
     <div className="max-w-md mx-auto mt-16 p-8 bg-white shadow-lg rounded-lg border border-gray-200">
       <h2 className="text-3xl font-semibold mb-6 text-center text-green-600">Регистрация</h2>

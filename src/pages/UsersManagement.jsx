@@ -10,7 +10,7 @@ export default function UsersManagement() {
   const currentUser = useSelector(state => state.user?.user);
 
   useEffect(() => {
-    fetch('http://localhost:3000/users')
+    fetch('http://localhost:5000/users')
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
@@ -22,7 +22,7 @@ export default function UsersManagement() {
     const hashedPassword = await bcrypt.hash(newUser.password, 10);
 
     // Отправляем данные с хешированным паролем
-    fetch('http://localhost:3000/users', {
+    fetch('http://localhost:5000/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...newUser, password: hashedPassword }),
@@ -46,7 +46,7 @@ export default function UsersManagement() {
       return;
     }
 
-    fetch(`http://localhost:3000/users/${id}`, {
+    fetch(`http://localhost:5000/users/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ role: newRole })
@@ -58,7 +58,7 @@ export default function UsersManagement() {
   const handleDelete = (id) => {
     if (!window.confirm("Удалить пользователя?")) return;
 
-    fetch(`http://localhost:3000/users/${id}`, {
+    fetch(`http://localhost:5000/users/${id}`, {
       method: 'DELETE'
     }).then(() => {
       setUsers(users.filter(u => u.id !== id));

@@ -1,101 +1,90 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAnimals, deleteAnimalAsync } from '../redux/animalSlice';
+import { addPetToCart } from '../redux/cartSlice'; // Импорт для добавления в корзину
+import { toast } from 'react-toastify'; // Для уведомлений
 
 export default function Animals() {
-  const [animals, setAnimals] = useState([]);
-  const [vets, setVets] = useState([]);
-  const [selectedVet, setSelectedVet] = useState('');
-  const user = useSelector((state) => state.user);
-  const role = user?.role;
+  const dispatch = useDispatch();
+  const { items: animals, loading, error } = useSelector(state => state.animals);
+  const { user, role } = useSelector(state => state.auth); // Получаем пользователя и роль
 
   useEffect(() => {
-    Promise.all([
-      fetch('http://localhost:3000/animals').then(res => res.json()),
-      fetch('http://localhost:3000/vets').then(res => res.json())
-    ]).then(([animalsData, vetsData]) => {
-      setAnimals(animalsData);
-      setVets(vetsData);
-    });
-  }, []);
+    dispatch(fetchAnimals());
+  }, [dispatch]);
 
-  const handleAssignVet = async (animalId, vetId) => {
-    if (role !== 'vet' && role !== 'admin') {
-      alert('У вас нет прав на назначение ветеринара');
-      return;
+  const handleDelete = (id) => {
+    // Проверка прав доступа (например, только админ или владелец)
+    if (role !== 'admin' && role !== 'owner') {
+        toast.error('У вас нет прав для удаления питомцев.');
+        return;
     }
-
-    try {
-      const response = await fetch(`http://localhost:3000/animals/${animalId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ vetId })
-      });
-      const updatedAnimal = await response.json();
-      setAnimals(animals.map(animal =>
-        animal.id === animalId ? updatedAnimal : animal
-      ));
-    } catch (error) {
-      console.error('Error assigning vet:', error);
-      alert('Ошибка при назначении ветеринара');
+    if (window.confirm('Удалить питомца?')) {
+      dispatch(deleteAnimalAsync(id))
+        .unwrap()
+        .then(() => toast.success('Питомец успешно удален!'))
+        .catch((err) => toast.error(`Ошибка удаления: ${err}`));
     }
   };
 
-  const filteredAnimals = selectedVet
-    ? animals.filter(animal => animal.vetId === selectedVet)
-    : animals;
+  const handleAddToCart = (pet) => {
+    if (!user) {
+      toast.error('Пожалуйста, войдите, чтобы добавить питомца в корзину.');
+      return;
+    }
+    // Передаем необходимые данные питомца
+    dispatch(addPetToCart({ id: pet.id, name: pet.name, species: pet.species, price: pet.price }));
+  };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-primary mb-6 text-center">Наши животные</h1>
-      
-      <div className="mb-6 text-center">
-        <select
-          value={selectedVet}
-          onChange={(e) => setSelectedVet(e.target.value)}
-          className="p-3 border-2 border-gray-300 rounded-lg text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-        >
-          <option value="">Все животные</option>
-          {vets.map(vet => (
-            <option key={vet.id} value={vet.id}>{vet.name}</option>
-          ))}
-        </select>
-      </div>
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold text-primary mb-6">Наши Питомцы</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAnimals.map(animal => {
-          const assignedVet = vets.find(vet => vet.id === animal.vetId);
-          return (
-            <div key={animal.id} className="bg-white rounded-lg shadow-xl p-5 border-2 border-gray-200 hover:shadow-2xl transition-all">
-              <img
-                src={animal.image}
-                alt={animal.name}
-                className="w-full h-56 object-cover rounded-md mb-4"
-              />
-              <h2 className="text-xl font-semibold text-gray-800">{animal.name}</h2>
-              <p className="text-gray-600">Тип: {animal.type}</p>
-              <div className="mt-3">
-                {assignedVet ? (
-                  <p className="text-sm text-gray-600">Ветеринар: {assignedVet.name}</p>
-                ) : (
-                  <p className="text-sm text-gray-600">Ветеринар не назначен</p>
+      {loading && <p className="text-center text-gray-600">Загрузка питомцев...</p>}
+      {error && <p className="text-center text-red-500">Ошибка загрузки: {error}</p>}
+
+      {!loading && !error && animals.length === 0 && <p className="text-center text-gray-500">Питомцы не найдены.</p>}
+
+      {!loading && !error && animals.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {animals.map(pet => (
+            <div key={pet.id} className="bg-white rounded-xl shadow-lg border border-gray-200 p-5 flex flex-col justify-between hover:shadow-2xl transition-all">
+              <div>
+                {pet.image_url && (
+                  <img
+                    src={pet.image_url}
+                    alt={pet.name}
+                    className="w-full h-48 object-cover rounded mb-3"
+                  />
                 )}
-                {(role === 'vet' || role === 'admin') && (
-                  <select
-                    value={animal.vetId || ''}
-                    onChange={(e) => handleAssignVet(animal.id, e.target.value)}
-                    className="mt-3 p-3 border-2 border-gray-300 rounded-lg w-full text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                <h2 className="text-xl font-semibold text-gray-800 mb-1">{pet.name}</h2>
+                <p className="text-sm text-gray-600">Вид: {pet.species}</p>
+                {pet.breed && <p className="text-sm text-gray-600">Порода: {pet.breed}</p>}
+                {pet.age !== null && <p className="text-sm text-gray-600">Возраст: {pet.age} лет</p>}
+                <p className="text-lg font-bold text-primary mt-2 mb-3">{pet.price} тг</p>
+                {pet.description && <p className="text-sm text-gray-700 mb-3">{pet.description}</p>}
+              </div>
+
+              <div className="mt-auto flex flex-col space-y-2">
+                 <button
+                    onClick={() => handleAddToCart(pet)}
+                    className="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition duration-300 text-sm"
                   >
-                    <option value="">Выберите ветеринара</option>
-                    {vets.map(vet => (
-                      <option key={vet.id} value={vet.id}>{vet.name}</option>
-                    ))}
-                  </select>
+                    В корзину
+                  </button>
+                {(role === 'admin' || role === 'owner') && (
+                  <button
+                    onClick={() => handleDelete(pet.id)}
+                    className="w-full bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition duration-300 text-xs"
+                  >
+                    Удалить
+                  </button>
                 )}
               </div>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
