@@ -85,7 +85,7 @@ export default function Cart() {
                   <div key={product.id} className="flex items-center justify-between border-b py-3 last:border-b-0">
                     <div>
                       <p className="font-medium text-gray-800">{product.name}</p>
-                      <p className="text-sm text-gray-600">{product.price} тг</p>
+                      <p className="text-sm text-gray-600">{product.price} $</p>
                     </div>
                     <div className="flex items-center space-x-3">
                       <input
@@ -115,7 +115,7 @@ export default function Cart() {
                   <div key={pet.id} className="flex items-center justify-between border-b py-3 last:border-b-0">
                     <div>
                       <p className="font-medium text-gray-800">{pet.name} <span className="text-sm text-gray-500">({pet.species})</span></p>
-                      <p className="text-sm text-gray-600">{pet.price} тг</p>
+                      <p className="text-sm text-gray-600">{pet.price} $</p>
                     </div>
                     <button
                       onClick={() => dispatch(removePetFromCart(pet.id))}
@@ -143,7 +143,7 @@ export default function Cart() {
               </div>
               <div className="flex justify-between mb-4 text-gray-800 font-semibold text-lg border-t pt-3 mt-3">
                 <span>Общая сумма:</span>
-                <span>{totalPrice.toFixed(2)} тг</span>
+                <span>{totalPrice.toFixed(2)} $</span>
               </div>
               <button
                 onClick={handleCreateOrder}

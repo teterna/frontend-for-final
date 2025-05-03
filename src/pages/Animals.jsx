@@ -61,7 +61,7 @@ export default function Animals() {
                 <p className="text-sm text-gray-600">Вид: {pet.species}</p>
                 {pet.breed && <p className="text-sm text-gray-600">Порода: {pet.breed}</p>}
                 {pet.age !== null && <p className="text-sm text-gray-600">Возраст: {pet.age} лет</p>}
-                <p className="text-lg font-bold text-primary mt-2 mb-3">{pet.price} тг</p>
+                <p className="text-lg font-bold text-primary mt-2 mb-3">{pet.price} $</p>
                 {pet.description && <p className="text-sm text-gray-700 mb-3">{pet.description}</p>}
               </div>
 

@@ -259,7 +259,7 @@ export default function Products() {
                 )}
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h2>
                 <p className="text-gray-600 text-sm mb-2">{product.description}</p>
-                <p className="text-lg font-bold text-primary mb-3">{product.price} тг</p>
+                <p className="text-lg font-bold text-primary mb-3">{product.price} $</p>
                 {/* Отображение категории */} 
                 {product.category && <p className="text-sm text-gray-500 mb-3">Категория: {product.category.name}</p>}
               </div>

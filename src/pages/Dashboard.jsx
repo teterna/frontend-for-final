@@ -67,7 +67,7 @@ export default function Dashboard() {
             {products.slice(0, 4).map(product => ( // Отображаем только первые 4 продукта
               <div key={product.id} className="bg-white rounded-xl p-5 shadow-lg border-2 border-gray-200 hover:shadow-2xl transition-all">
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                <p className="text-gray-600">Цена: {product.price}тг</p>
+                <p className="text-gray-600">Цена: {product.price}$</p>
                 {/* Можно добавить изображение продукта, если оно есть в данных */}
                 {/* {product.image && <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded mt-2" />} */}
               </div>
